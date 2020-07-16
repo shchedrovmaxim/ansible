@@ -40,7 +40,7 @@
   - name: clone repozitory with project from git
     shell: git clone https://shchedrovmaxim:{{ github_pass }}@github.com/shchedrovmaxim/authentication_queue_bot /home/ubuntu/projects
   
-  - name: create user in mysql-server
+  - name: create user in mysql-server 
     shell: mysql -u root < /home/ubuntu/projects/mysql_scripts/create_user.sql 
   
   - name: create db queue
@@ -49,11 +49,16 @@
   - name: create tables in db
     shell: mysql -u root < /home/ubuntu/projects/mysql_scripts/create_tables.sql
    
+  - name: add ppa for python3.7
+    apt_repository: repo=ppa:deadsnakes/ppa
+
+
   - name: install python3.7
-    shell: | 
-           add-apt-repository -y ppa:deadsnakes/ppa
-           apt update
-           apt install -y python3.7
+    apt: update_cache=yes name=python3.7
+#    shell: | 
+#           add-apt-repository -y  ppa:deadsnakes/ppa
+#           apt update
+#           apt install -y python3.7
    
   - name: install pip
     apt: name=python3-pip state=latest
